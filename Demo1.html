@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="app">
+    <input type="tel" :placeholder="defaultMsg" v-model="userTel"/>
+    <span>您的电话号码为：{{userTel | TestTel}}</span>
+</div>
+<script src="vue.js"></script>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            defaultMsg:'请输入您的电话号码',
+            userTel:''
+        },
+        filters:{
+            TestTel: function (val) {
+                var tel,error;
+                if(val.length == 11){
+                    tel=val.replace(val.substring(3,7),"****");  //截取4位用*代替
+                }else if (val.length ==0){
+                    error='输入您的电话号码';
+                }else if(val.length<11){
+                    error='输入有误';
+                }
+                return tel? tel:error;
+            }
+        }
+    })
+</script>
+</body>
+</html>
