@@ -19,12 +19,20 @@
         },
         filters:{
             TestTel: function (val) {
-                var tel,error;
+                var tel,error, testTel=new RegExp('^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$');
+
                 if(val.length == 11){
-                    tel=val.replace(val.substring(3,7),"****");  //截取4位用*代替
+                    val=testTel.exec(val);
+                    if(val){
+                        val=val[0];
+                        tel=val.replace(val.substring(3,7),"****");  //截取4位用*代替
+                    }else{
+                        tel='号码格式有误';
+                    }
+
                 }else if (val.length ==0){
                     error='输入您的电话号码';
-                }else if(val.length<11){
+                }else if(val.length>11){
                     error='输入有误';
                 }
                 return tel? tel:error;
