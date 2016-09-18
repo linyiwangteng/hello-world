@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css方式让一个容器水平垂直居中</title>
+</head>
+<body>
+	<style>
+		.wrap{
+			position: relative;
+			width: 200px;
+			height:200px;
+			background-color: #ff0000;
+		}
+		.wrap .center{
+			position: absolute;
+			margin: auto;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right:0;
+			background-color: #Ffffff;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+	<h1>1.position加margin</h1>
+	<div class="wrap">
+		<div class="center"></div>
+	</div>
+	
+	<style>
+		.wrap2{
+			width: 200px;
+			height: 200px;
+			display: table-cell;
+			text-align: center;
+			background-color: #ff000f;
+			vertical-align: middle;
+		}
+		.wrap2 .center{
+			display: inline-block;
+			width: 100px;
+			height:100px;
+			background-color: green;
+			vertical-align: middle;
+		}
+	</style>
+	<h1>2.display:table-cell</h1>
+	<div class="wrap2">
+		<div class="center"></div>
+	</div>
+	
+	<style>
+		.wrap3{
+			position: relative;
+			width: 200px;
+			height: 200px;
+			background-color: #ff000f;
+		}
+		.wrap3 .center{
+			position: absolute;
+			background-color: green;
+			width: 150px;
+			height: 150px;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+	</style>
+	<h1>3.position加transform</h1>
+	<div class="wrap3">
+		<div class="center"></div>
+	</div>
+	<p>兼容性：ie9以下不支持transform，手机端表现的比较好</p>
+	
+	<style>
+		.wrap4{
+			width: 200px;
+			height: 200px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #ff000f;
+		}
+		.wrap4 .center{
+			display: block;
+			width: 100px;
+			height: 100px;
+			background-color: green;
+		}
+	</style>
+	<h1>4.flex:align-items:center;justify-content:center</h1>
+	<div class="wrap4">
+		<div class="center"></div>
+	</div>
+	<p>移动端首选</p>
+
+		<style>
+		.wrap5{
+			width: 200px;
+			height: 200px;
+			display: flex;
+			
+			background-color: #ff000f;
+		}
+		.wrap5 .center{
+			display: block;
+			width: 100px;
+			height: 100px;
+			background-color: green;
+			margin: auto;
+		}
+	</style>
+	<h1>5.display:flex;margin:auto</h1>
+	<div class="wrap5">
+		<div class="center"></div>
+	</div>
+	<p>移动端首选</p>
+
+
+	<h1>6.纯position</h1>
+	
+	<style>
+		.table{
+			height:200px;
+			width: 200px;
+			display: table;
+			position: relative;
+			float: left;
+			background-color: #ff000f;
+		}
+		.tableCell{
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+			*position: absolute;
+			padding:10px;
+			*top:50%;
+			*left:50%;
+		}
+		.content{
+			*position: absolute;
+			*top: -50%;
+			*left: -50%;
+			background-color: green;
+		}
+	</style>
+	<h1>7.不固定宽高，自适应</h1>
+	<div class="table">
+		<div class="tableCell">
+			<div class="content">兼容低版本的浏览器，不固定宽高</div>
+		</div>
+	</div>
+</body>
+</html>
