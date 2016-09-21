@@ -27,3 +27,4 @@ function pluralize(time, label) {
     }
     return time + label + 's';
 }
+// Tips:两个过滤器函数：domain获取传入链接的域名；fromNow获取一段时间（例如：2天前：即为当前时间到创建的时间为2天）；
