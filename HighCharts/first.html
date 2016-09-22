@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+</head>
+<body>
+    <div id="container" style="width: 800px; height: 400px; margin: 0 auto;" ></div>
+    <script>
+        $(function(){
+            $("#container").highcharts({
+              chart:{
+                  type:'line',
+                  style:{
+                      fontFamily:'Microsoft YaHei',
+                      fontSize:'14px',
+                      color:"#ff7400",
+                      backgrounColor:'red'
+                  },
+                  events:{
+                      click:function(event){
+                          var label=this.renderer.label(
+                                  'x:'+Highcharts.numberFormat(event.xAxis[0].value,2)+',y:'+Highcharts.numberFormat(event.yAxis[0].value,2),
+                                  event.xAxis[0].axis.toPixels(event.xAxis[0].value),
+                                  event.yAxis[0].axis.toPixels(event.yAxis[0].value)
+                          )
+                                  .attr({
+                                      fill: Highcharts.getOptions().colors[0],
+                                      padding: 10,
+                                      r: 5,
+                                      zIndex: 8
+                                  })
+                                  .css({
+                                      color: '#FFFFFF'
+                                  })
+                                  .add();
+                          setTimeout(function () {
+                              label.fadeOut();
+                          }, 1000);
+                      }
+                  }
+              },
+                title:{
+                    text:'<a href="http://www.hcharts.cn/" style="text-decoration: none; color: #ff9400;">LighChart官网</a>',
+                    style:{
+                        color:"#ff9400"
+                    },
+                    useHTML:true
+                },
+                xAxis:{
+                    categories:['苹果','香蕉','橙子','梨'],
+                    labels:{
+                        staggerLines:3,
+                        maxStaggerLines:6
+                    }
+                },
+                yAxis:{
+                    title:{
+                        text:'吃水果的个数'
+                    },
+                    labels:{
+//                        enabled:false,
+                        formatter:function(){
+                            return this.value+'个';
+                        },
+                        step:2  //Labels显示间隔
+                    }
+                },
+                series:[
+                    {
+                        name:'小明',
+                        data:[1,8,5,10]
+                    },
+                    {
+                        name:'小红',
+                        data:[5,7,3,8]
+                    }
+                ]
+            })
+        })
+    </script>
+</body>
+</html>
