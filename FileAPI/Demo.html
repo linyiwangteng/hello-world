@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<label class="item_label">上传照片：
+	<span style="width:100px;height: 100px; border:1px solid #ccc;display: inline-block;">
+		<img src="#" id="uploadPreview" style="width: 100%; height: 100%;">
+	</span>
+	<input type="file" name="file" id="postFile" style="width: 74px;">
+	<span id="error_text" style="display: none;">提示</span>
+	</label>
+	<!-- <script>
+		document.getElementById("item_label").onchange=function(){
+			var val=this.value;
+			var upLoadTpe='.jpg,.gif,.bmp,,png';//['.jpg','.gif','.bmp','.png']; //可上传的格式
+			
+		}
+	</script> -->
+	<script src="./jquery-1.11.3.min.js"></script>
+	<script>
+		document.getElementById('postFile').onchange = function() {
+ 			var val = this.value;
+ 			var upLoadType = '.jpg,.gif,.bmp,.png';//['.jpg','.gif','.bmp','.png']; //可上传的格式
+ 			var fileExt = val.substr(val.lastIndexOf(".")).toLowerCase(); //从字符串中抽出最后一次出现.之后的字符，并且转换成小写
+ 			var result = upLoadType.indexOf(fileExt); //查找后缀名是否符合条件，如果符合返回>=0，如果不符合则返回负数;
+ 			_alertMsg = $('#error_text');
+ 			var oFReader = new FileReader();
+ 			if (this.files.length === 0) { return; }
+ 			var oFile = this.files[0]; //如果只有一个文件则只需要访问这个FileList对象中的第一个元素.
+  
+ 			if (oFile.size / 1024 < 100) {
+ 			 _alertMsg.html("<font style='color:blue'>√</font>").show()
+			 };
+
+ 			if (result < 0) {
+  			_alertMsg.html("请输入正确格式:" + upLoadType).show();
+ 			} else{
+ 			 _alertMsg.html("<font style='color:blue'>√</font>").show();
+ 			};
+ 			
+ 
+ 			oFReader.readAsDataURL(oFile); // 开始在后台进行读取操作。当图像文件的所有内容加载后,他们转换成一个data:URL,传递到onload回调函数中
+ 			oFReader.onload = function (oFREvent) { //当读取操作成功完成时调用.
+  				document.getElementById("uploadPreview").src = oFREvent.target.result;
+  				var img=new Image();
+  				img.src=oFREvent.target.result;
+  				var imgWidth=img.width;
+  				console.log(imgWidth);
+ 			};
+		};
+	</script>
+</body>
+</html>
