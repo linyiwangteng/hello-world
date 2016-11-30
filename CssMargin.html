@@ -5,6 +5,7 @@
 	<title>css方式让一个容器水平垂直居中</title>
 </head>
 <body>
+	<!-- 第一种方法：使用position加margin -->
 	<style>
 		.wrap{
 			position: relative;
@@ -28,7 +29,9 @@
 	<div class="wrap">
 		<div class="center"></div>
 	</div>
-	
+	<!-- end -->
+
+	第二种方法：display:table-cell
 	<style>
 		.wrap2{
 			width: 200px;
@@ -40,8 +43,8 @@
 		}
 		.wrap2 .center{
 			display: inline-block;
-			width: 100px;
-			height:100px;
+			width: 120px;
+			height:150px;
 			background-color: green;
 			vertical-align: middle;
 		}
@@ -50,7 +53,9 @@
 	<div class="wrap2">
 		<div class="center"></div>
 	</div>
+	<!-- end -->
 	
+	<!-- 第三种方法 position 加transform -->
 	<style>
 		.wrap3{
 			position: relative;
@@ -72,8 +77,10 @@
 	<div class="wrap3">
 		<div class="center"></div>
 	</div>
-	<p>兼容性：ie9以下不支持transform，手机端表现的比较好</p>
-	
+	<p>tip: 兼容性：ie9以下不支持transform，手机端表现的比较好</p>
+	<!-- end -->
+
+	<!-- 第四种方法：display:flex; align-items:center; justify-content:center; -->
 	<style>
 		.wrap4{
 			width: 200px;
@@ -95,8 +102,10 @@
 		<div class="center"></div>
 	</div>
 	<p>移动端首选</p>
+	<!-- end -->
 
-		<style>
+	<!-- 第五种方法：display:flex;margin:auto; -->
+	<style>
 		.wrap5{
 			width: 200px;
 			height: 200px;
@@ -117,10 +126,12 @@
 		<div class="center"></div>
 	</div>
 	<p>移动端首选</p>
+	<!-- end -->
 
-
+	<!-- 第六种方法：position定位 -->
 	<h1>6.纯position</h1>
 	
+	<!-- 第七种方法： 不固定宽高，自适应-->
 	<style>
 		.table{
 			height:200px;
