@@ -1,0 +1,29 @@
+/*文本添加色彩变化*/
+*{
+    padding:0;
+    margin:0;
+}
+.words{
+    font-size:60px;
+    width:600px;
+    height:100px;
+    line-height:100px;
+    text-align: center;
+    margin:30px auto;
+    color: #f35626;
+
+    background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+
+    -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+
+    -webkit-animation: hue 10s infinite linear;
+}
+@-webkit-keyframes hue {
+    from{
+        filter:hue-rotate(0deg);
+    }
+    to{
+        filter:hue-rotate(360deg);
+    }
+}
