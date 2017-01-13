@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>弹框</title>
+    <style>
+        *{margin:0;padding: 0;list-style:none;font:normal normal 300 16px/1.5 "微软雅黑",arial,verdana;}
+        html{height:3400px;}
+        .btn{width: 50%;margin: 50% auto;line-height: 40px;text-align: center;line-height: 40px;background: #008573;color: #fff;}
+        .hide_mask{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba(0,0,0,.5);
+            display: none;
+        }
+        .hideBox-main{
+            position: fixed;
+            left:50%;
+            top: 30%;
+            width:60%;
+            height: 160px;
+            margin-left: -30%;
+            overflow: hidden;
+            z-index: 1099;
+            font-weight: 400;
+            text-align: center;
+            background-color: transparent;
+            background:#fff;
+            -moz-box-orient:vertical;
+            -webkit-box-orient:vertical;
+            box-orient:vertical;
+            border-radius: 3px;
+            display: none;
+            -webkit-animation:zoomIn 0.2s ease;
+            animation-name:zoomIn 0.2s ease;
+        }
+        .hideBox-btn{
+            height: 53px;
+            line-height: 53px;
+            text-align: center;
+            font-size: 17px;
+            color: #fa2855;
+            border-top: 1px solid #e3e3e3;
+
+        }
+        .hideBox-box{
+            height: 380px;
+            font-size: 18px;
+            background: #fff000;
+        }
+        @-webkit-keyframes zoomIn{
+            0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}50%{opacity:1}
+        }
+        @keyframes zoomIn{0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}50%{opacity:1}}
+        .zoomIn{-webkit-animation-name:zoomIn;animation-name:zoomIn}
+        .ceshi{width:100%; height:400px; background:#ff0000}
+    </style>
+</head>
+<body id="bodys">
+<div style="text-align: center; font-size: 16px; padding-top: 20px;">
+    弹出框滚动，而页面不会因为默认行为而滚动
+</div>
+<div class="btn" id="Return">点击</div>
+<div class="hide_mask" id="hide_mask"></div>
+<div class="hideBox-main" id="hideBox-main">
+    <div class="hideBox-box" id="hideBox-box">
+        <h4>思路说明：</h4>
+        <p>弹出层1</p>
+        <p>弹出层2</p>
+        <p>弹出层3</p>
+        <p>弹出层4</p>
+        <p>弹出层5</p>
+        <p>弹出层6</p>
+        <p>弹出层7</p>
+        <p>弹出层8</p>
+        <p>弹出层9</p>
+        <p>弹出层10</p>
+        <p>弹出层11</p>
+        <p>弹出层12</p>
+        <p>弹出层13</p>
+        <p>弹出层14</p>
+        <p>弹出层15</p>
+    </div>
+</div>
+<div class="ceshi" id="ceshi"></div>
+<script type="text/javascript">
+    function $(id){
+        return document.getElementById(id);
+    }
+    var bodyScroll = function (e) { e.preventDefault(); },
+            returnBtn = $('Return'),
+            hide_mask = $('hide_mask'),
+            hideBox = $('hideBox-main');
+
+
+    returnBtn.onclick=function(){
+
+        hide_mask.style.display="block";
+        hideBox.style.display="block";
+        document.addEventListener('touchmove',bodyScroll,false);
+
+        hide_mask.onclick=function(){
+            this.style.display="none";
+            hideBox.style.display="none";
+            document.removeEventListener('touchmove',bodyScroll,false);
+        }
+    };
+
+
+
+    var init = 0;
+    var box = 160,box_content =380;
+    var max_margin = box_content - box,min_val = 0,max_val = max_margin;
+    $("hideBox-box").addEventListener('touchstart', function () {
+        init = 0;
+    },false);
+    /*换种思路：
+    * 1.max_margin是最大值，最小值为0，每次滑动的时候在这个值上做变化
+    * 2.当向上滑动的时候，y轴上的数值减少，差值为负数，max_margin不断的减小 直到为0
+    * 3.当向下……
+    * */
+    $("hideBox-box").addEventListener('touchmove', function (event) {
+        if(init === 0){
+            init = event.touches[0].clientY;
+            return false;
+        }
+        var current = event.touches[0].clientY;
+        var cha = current -init;
+        init = current;
+        var currentVal = parseInt( $("hideBox-box").style.marginTop)|| 0;
+
+        if(cha<0){
+            max_margin+=cha;
+            if(max_margin>=min_val){
+                $("hideBox-box").style.marginTop =currentVal +cha+'px';
+            }else{
+                max_margin-=cha;
+                $("hideBox-box").style.marginTop =(-max_val)+'px';
+            }
+        }
+        else{
+            max_margin+=cha;
+            if(max_margin<=max_val){
+                $("hideBox-box").style.marginTop =currentVal +cha+'px';
+            }else{
+                max_margin-=cha;
+                $("hideBox-box").style.marginTop =(min_val)+'px';
+            }
+        }
+    },false);
+
+</script>
+</body>
+</html>
