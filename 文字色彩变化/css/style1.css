@@ -15,15 +15,19 @@
     background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
 
     -webkit-background-clip: text;
-   -webkit-text-fill-color: transparent;
+
+    -webkit-text-fill-color: transparent;
 
     -webkit-animation: hue 10s infinite linear;
+    animation:hue 10s infinite linear;
 }
 @-webkit-keyframes hue {
     from{
-        filter:hue-rotate(0deg);
+        -webkit-filter:hue-rotate(0deg);
+                filter:hue-rotate(0deg);
     }
     to{
-        filter:hue-rotate(360deg);
+        -webkit-filter:hue-rotate(360deg);
+                filter:hue-rotate(360deg);
     }
 }
