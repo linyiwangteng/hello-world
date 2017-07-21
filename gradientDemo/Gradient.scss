@@ -1,5 +1,5 @@
-//css3µÄÏßĞÔ½¥±ä
-//1.ÏßĞÔ½¥±äÔÚMozilaÏÂµÄÓ¦ÓÃ
+//css3çš„çº¿æ€§æ¸å˜
+//1.çº¿æ€§æ¸å˜åœ¨Mozilaä¸‹çš„åº”ç”¨
 //-moz-linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* )
 
 .example{
@@ -10,9 +10,9 @@
   background: -moz-linear-gradient(left top, darken(#ff1515,30%), #ff1515,darken(#ff4848,10%),#fff);
 }
 
-//2.ÏßĞÔ½¥±äÔÚWebkitÏÂµÄÓ¦ÓÃ
-//-webkit-linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* )//×îĞÂ·¢²¼ÊéĞ´Óï·¨
-//-webkit-gradient(<type>, <point> [, <radius>]?, <point> [, <radius>]? [, <stop>]*) //ÀÏÊ½Óï·¨ÊéĞ´¹æÔò
+//2.çº¿æ€§æ¸å˜åœ¨Webkitä¸‹çš„åº”ç”¨
+//-webkit-linear-gradient( [<point> || <angle>,]? <stop>, <stop> [, <stop>]* )//æœ€æ–°å‘å¸ƒä¹¦å†™è¯­æ³•
+//-webkit-gradient(<type>, <point> [, <radius>]?, <point> [, <radius>]? [, <stop>]*) //è€å¼è¯­æ³•ä¹¦å†™è§„åˆ™
 
 .example{
   //background: -webkit-linear-gradient(top,#ff1515,#7b0000);
@@ -23,7 +23,7 @@
   background: -webkit-gradient(linear,0 50%, 100% 50%, from(#7b0000), to(#ffffff));
 }
 
-//3.ÏßĞÔ½¥±äÔÚOperaÏÂµÄÓ¦ÓÃ
+//3.çº¿æ€§æ¸å˜åœ¨Operaä¸‹çš„åº”ç”¨
 //-o-linear-gradient([<point> || <angle>,]? <stop>, <stop> [, <stop>]); /* Opera 11.10+ */
 
 .example{
@@ -31,14 +31,14 @@
   background: -o-linear-gradient(left,#ff1515,#7b0000);
   background: -o-linear-gradient(left top,#ff1515,#7b0000);
 }
-//4.ÏßĞÔ½¥±äÔÚTrident(IE)ÏÂµÄÓ¦ÓÃ
-//IEÒÀ¿¿ÂË¾µÊµÏÖ½¥±ä¡£startColorstr±íÊ¾ÆğµãµÄÑÕÉ«£¬endColorstr±íÊ¾ÖÕµãÑÕÉ«¡£GradientType±íÊ¾½¥±äÀàĞÍ£¬0ÎªÈ±Ê¡Öµ£¬±íÊ¾´¹Ö±½¥±ä£¬1±íÊ¾Ë®Æ½½¥±ä¡£
+//4.çº¿æ€§æ¸å˜åœ¨Trident(IE)ä¸‹çš„åº”ç”¨
+//IEä¾é æ»¤é•œå®ç°æ¸å˜ã€‚startColorstrè¡¨ç¤ºèµ·ç‚¹çš„é¢œè‰²ï¼ŒendColorstrè¡¨ç¤ºç»ˆç‚¹é¢œè‰²ã€‚GradientTypeè¡¨ç¤ºæ¸å˜ç±»å‹ï¼Œ0ä¸ºç¼ºçœå€¼ï¼Œè¡¨ç¤ºå‚ç›´æ¸å˜ï¼Œ1è¡¨ç¤ºæ°´å¹³æ¸å˜ã€‚
 .example{
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1471da, endColorstr=#1C85FB);/*IE<9>*/
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#1471da, endColorstr=#1C85FB)";/*IE8+*/
 }
 
-//5.×ÛºÏÓ¦ÓÃ
+//5.ç»¼åˆåº”ç”¨
 .example1{
   width: 200px;
   height: 200px;
@@ -68,7 +68,7 @@
   background: -o-linear-gradient(30deg, #ace, #f96);
 }
 
-//6.½Ç¶ÈĞı×ªÔ­Àí
+//6.è§’åº¦æ—‹è½¬åŸç†
 .deg{
   width: 200px;
   height: 200px;
@@ -131,10 +131,10 @@
   background: -o-linear-gradient(360deg, #ace, #f96);
 }
 
-//×Ü½á£ºµ±Ö¸¶¨½Ç¶È£¬ËüÊÇÒ»¸öÓÉË®Æ½ÏßºÍ½¥±äÏß²úÉúµÄ½Ç¶È£¬ÄæÊ±Õë·½ÏòµÄ£º
-//0deg½«²úÉúÒ»¸ö×óµ½ÓÒºáÏòÌİ¶È£¬
-//45deg½«²úÉúÒ»¸ö´Ó×óÏÂ½Çµ½ÓÒÉÏ½ÇµÄ½¥±ä
-//90¶È½«´´½¨Ò»¸ö´Óµ×²¿µ½¶¥²¿µÄ´¹Ö±½¥±ä
+//æ€»ç»“ï¼šå½“æŒ‡å®šè§’åº¦ï¼Œå®ƒæ˜¯ä¸€ä¸ªç”±æ°´å¹³çº¿å’Œæ¸å˜çº¿äº§ç”Ÿçš„è§’åº¦ï¼Œé€†æ—¶é’ˆæ–¹å‘çš„ï¼š
+//0degå°†äº§ç”Ÿä¸€ä¸ªå·¦åˆ°å³æ¨ªå‘æ¢¯åº¦ï¼Œ
+//45degå°†äº§ç”Ÿä¸€ä¸ªä»å·¦ä¸‹è§’åˆ°å³ä¸Šè§’çš„æ¸å˜
+//90åº¦å°†åˆ›å»ºä¸€ä¸ªä»åº•éƒ¨åˆ°é¡¶éƒ¨çš„å‚ç›´æ¸å˜
 ul:after{
   content: '';
   display: block;
@@ -144,8 +144,8 @@ ul:after{
 
 
 
-//7¡¢½¥±äÉÏÓ¦ÓÃÍ¸Ã÷©¤Í¸Ã÷¶È(Transparency)£º
-// Í¸Ã÷¶È»¹Ö§³ÖÍ¸Ã÷½¥±ä¡£Õâ¶ÔÓÚÖÆ×÷Ò»Ğ©ÌØÊâµÄĞ§¹ûÊÇÏàµ±ÓĞÓÃµÄ£¬ÀıÈç£¬µ±¶Ñµş¶à¸ö±³¾°Ê±¡£ÕâÀïÊÇÁ½¸ö±³¾°µÄ½áºÏ£ºÒ»ÕÅÍ¼Æ¬£¬Ò»¸ö°×É«µ½Í¸Ã÷µÄÏßĞÔ½¥±ä¡£
+//7ã€æ¸å˜ä¸Šåº”ç”¨é€æ˜â”€é€æ˜åº¦(Transparency)ï¼š
+// é€æ˜åº¦è¿˜æ”¯æŒé€æ˜æ¸å˜ã€‚è¿™å¯¹äºåˆ¶ä½œä¸€äº›ç‰¹æ®Šçš„æ•ˆæœæ˜¯ç›¸å½“æœ‰ç”¨çš„ï¼Œä¾‹å¦‚ï¼Œå½“å †å å¤šä¸ªèƒŒæ™¯æ—¶ã€‚è¿™é‡Œæ˜¯ä¸¤ä¸ªèƒŒæ™¯çš„ç»“åˆï¼šä¸€å¼ å›¾ç‰‡ï¼Œä¸€ä¸ªç™½è‰²åˆ°é€æ˜çš„çº¿æ€§æ¸å˜ã€‚
 .example-opacity{
   width: 200px;
   height: 200px;
