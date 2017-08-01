@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            *{padding: 0;margin: 0;}
+            ul li{list-style: none;}
+            .imgBox{width: 326px; height:258px; border: 1px solid red; text-align: center;margin:20px auto;overflow: hidden;}
+            .imgBox img{position: relative;}
+        </style>
+    </head>
+    <body>
+        <div id="imgs">
+            <ul>
+                <li v-for="*(src,index) in imgsrc">
+                    <span style="display:block;width:326px; text-align:center;margin:0 auto;">{{index}}</span>
+                    <div class="imgBox">
+                        <img :data-src="src" alt="">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <script src="https://unpkg.com/vue@2.4.2"></script>
+        <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="./jquery.lazyload.js"></script>
+        <script>
+            var vm =new Vue({
+                el:"#imgs",
+                data:{
+                    imgsrc:['http://static.tapotiexie.com/ship/meishi/dfea0768cc6ba51dd20c7224016b0bd71501511851.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/86b48b560a92d18429bcfca2c70ee7331501511894.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/4d0505284ac5049b4167eb7ebfe0791b1501204493.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/ad47a008a2f806aa6eb1b53852cd8b371501511930.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/46fc943ecd56441056a560ba37d0b9e81501205692.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/3f53d7190148675e3cd472fc826828c51501205707.jpg',
+                            'http://static.tapotiexie.com/ship/meishi/b4baaff0e2f11b5356193849021d641f1501205783.jpg'
+                    ]
+                }
+            })
+            $(".imgBox img").lazyload({
+                    data_attribute:'src',
+                    adapt_type:"2"
+            })
+        </script>
+    </body>
+</html>
