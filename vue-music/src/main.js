@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
@@ -18,6 +19,7 @@ Vue.prototype.$http = axios
 new Vue({
   el: '#app',
   router,
+  store,
   axios,
   render: h => h(App)
 })

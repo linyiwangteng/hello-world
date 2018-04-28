@@ -1,10 +1,14 @@
 <template>
     <div class="singer">
-        <list-view :data="singers"></list-view>
+        <list-view :data="singers" @select="selectSinger"></list-view>
+        <transition name="slider">
+          <router-view></router-view>
+        </transition>
     </div>
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
   import {getSingerList} from '@/api/singer'
   import {ERR_OK} from '@/api/config'
   import Singer from 'common/js/singer'
@@ -21,6 +25,12 @@
       this._getSingerList()
     },
     methods: {
+      selectSinger(singer) {
+        this.setSinger(singer)
+        this.$router.push({
+          path: `/singer/${singer.id}`
+        })
+      },
       _getSingerList() {
         getSingerList().then(res => {
           if(res.code == ERR_OK) {
@@ -69,7 +79,10 @@
           return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         return hot.concat(ret)
-      }
+      },
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      })
     },
     components: {
       ListView
@@ -84,4 +97,8 @@
     bottom: 0
     width:100%
   }
+  .slider-enter-active,.slider-leave-active
+    transition: all 0.3s
+  .slider-enter, .slider-leave-to
+    transform: translate3d(100%,0,0)
 </style>
