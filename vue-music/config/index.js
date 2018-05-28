@@ -21,6 +21,16 @@ module.exports = {
           '^/recommend': ''
         }
       },
+      '/lyric': {
+        target:'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+        changeOrigin:true,
+        headers: {
+          referer:'https://y.qq.com/portal/player.html'
+        },
+        pathRewrite: {
+          '^/lyric': ''
+        }
+      },
       // https://zhufuapi.yaxiangame.com/jiajian/leaderboard
       '/api': {
         target: 'https://zhufuapi.yaxiangame.com/jiajian/leaderboard',

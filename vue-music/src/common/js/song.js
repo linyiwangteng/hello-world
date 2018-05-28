@@ -1,5 +1,7 @@
 // import {getSongUrlVkey} from '@/api/singer'
-// import {ERR_OK} from '@/api/config'
+import {ERR_OK} from '@/api/config'
+import {getLyricApi} from '@/api/song'
+import { Base64 } from 'js-base64'
 export default class Song {
   constructor({id, mid, singer, name, album, duration, image, url}) {
     this.id = id
@@ -11,12 +13,25 @@ export default class Song {
     this.image = image
     this.url = url
   }
+  getLyric() {
+    if (this.lyric) {
+      return Promise.resolve(this.lyric)
+    }
+    return new Promise((resolve, reject) => {
+      getLyricApi('/lyric', this.mid).then(res => {
+        if (res.retcode === ERR_OK) {
+          this.lyric = Base64.decode(res.lyric)
+          resolve(this.lyric)
+        } else {
+          let err = 'no lyric'
+          reject(err)
+        }
+      })
+    })
+  }
 }
 // 创建工厂函数
 export function createSong(musicData) {
-  // getSongUrlVkey(musicData.songmid, musicData.songmid).then(res => {
-  //   if (res.code === ERR_OK) {}
-  // })
   return new Song({
     id: musicData.songid,
     mid: musicData.songmid,
@@ -26,7 +41,6 @@ export function createSong(musicData) {
     duration: musicData.interval,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
     url: ''
-    // url: `http://dl.stream.qqmusic.qq.com/${res.data.items[0].filename}?vkey=${res.data.items[0].vkey}&guid=4125224356&uin=0&fromtag=66`
   })
 }
 
