@@ -12,7 +12,11 @@
             <h1 class="title" v-html="currentSong.name"></h1>
             <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
-        <div class="middle">
+        <div class="middle" 
+             @touchstart.prevent="middleStart"
+             @touchmove.prevent="middleMove"
+             @touchend="middleEnd"
+        >
           <div class="middle-l">
               <div class="cd-wrapper" ref="cdWrapper">
                 <div class="cd" :class="cdCls">
@@ -23,10 +27,10 @@
                 <div class="player-lyric"></div>
               </div> -->
           </div>
-          <scroll class="middle-r" ref="lyricList">
+          <scroll class="middle-r" ref="lyricList" :data="currentLyric&&currentLyric.lines">
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
-                <p ref="lyricLine" class="text" :class="" v-for="(line,index) in currentLyric.lines">
+                <p ref="lyricLine" class="text" :class="{current: currentLineNum === index}" v-for="(line,index) in currentLyric.lines">
                   {{line.txt}}
                 </p>
               </div>
@@ -35,7 +39,8 @@
         </div>
         <div class="bottom">
           <div class="dot-wrapper">
-
+            <span class="dot" :class="{'active': currentShow=='cd'}"></span>
+            <span class="dot" :class="{'active': currentShow=='lyric'}"></span>
           </div>
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
@@ -144,18 +149,79 @@
         songUrl: '',
         songReady: false,
         currentTime: 0,
-        currentLyric: null
+        currentLyric: null,
+        currentLineNum: 0,
+        currentShow: 'cd'
       }
     },
+    created(){
+      this.touches = {}
+    },
     methods: {
+      middleStart(e) {
+        console.log(e);
+        this.touches.initial = true;
+        let touches = e.touches[0];
+        this.touches.startX = touches.pageX;
+        this.touches.startY = touches.pageY;
+      },
+      middleMove(e) {
+        if(!this.touches.initial){
+          return;
+        }
+        let touches = e.touches[0];
+        let daltaX = touches.pageX - this.touches.startX;
+        let daltaY = touches.pageY - this.touches.startY;
+        if(Math.abs(daltaX)<Math.abs(daltaY)){
+          return;
+        }
+        let left = this.currentShow === 'cd'? 0 : -window.innerWidth;
+        let offsetWidth = Math.min(0,Math.max(-window.innerWidth, left+daltaX));
+        this.touches.percent = Math.abs(offsetWidth/window.innerWidth);
+        this.$refs.lyricList.$el.style[transform] =  `translate3d(${offsetWidth}px,0,0)`;
+      },
+      middleEnd() {
+        let offsetWidth;
+        if(this.currentShow === 'cd') {
+          if(this.touches.percent > 0.1){
+            offsetWidth = - window.innerWidth;
+            this.currentShow = 'lyric'
+          }else{
+            offsetWidth = 0
+          }
+        }else{
+          if(this.touches.percent < 0.9){
+            offsetWidth = 0;
+            this.currentShow = 'cd'
+          }else{
+            offsetWidth = -window.innerWidth
+          }
+        }
+        this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px,0,0)`;
+        this.$refs.lyricList.$el.style[transitionDuration] = 300;
+      },
       // 获取歌词
       getLyric() {
 
         this.currentSong.getLyric().then( lyric => {
-          this.currentLyric = new Lyric(lyric)
+          this.currentLyric = new Lyric(lyric,this.handleLyric)
           // 获取歌词
-          console.log(this.currentLyric)
+          if(this.playing) {
+            this.currentLyric.play();
+          }
+          // 获取的歌词
+          // console.log(this.currentLyric)
         })
+      },
+      handleLyric({lineNum,txt}){
+        this.$refs.lyricList
+        if(lineNum > 5){
+          let lineEl = this.$refs.lyricLine[lineNum-5];
+          this.$refs.lyricList.scrollToElement(lineEl,1000);
+        }else{
+          this.$refs.lyricList.scrollToElement(0,1000)
+        }
+        this.currentLineNum = lineNum
       },
       // 选择模式
       selectMode() {
