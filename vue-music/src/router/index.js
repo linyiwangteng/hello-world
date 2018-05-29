@@ -24,10 +24,13 @@ export default new Router({
       path: '/singer',
       name: 'Singer',
       component: Singer,
+      meta: {requiresAuth: true},
       children: [
         {
           path: ':id',
-          component: SingerDetail
+          name: 'detailSinger',
+          component: SingerDetail,
+          meta: {detailSinger: true}
         }
       ]
     },

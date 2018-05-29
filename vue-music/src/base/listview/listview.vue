@@ -87,6 +87,9 @@
       scroll:function(pos){
         this.scrollY = pos.y
       },
+      refresh: function(){
+        this.$refs.listview.refresh()
+      },
       _scrollTo(index) {
         if (!index && index !== 0) {
           return

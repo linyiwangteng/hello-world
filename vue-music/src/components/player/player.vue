@@ -17,15 +17,15 @@
              @touchmove.prevent="middleMove"
              @touchend="middleEnd"
         >
-          <div class="middle-l">
+          <div class="middle-l" ref="middleL">
               <div class="cd-wrapper" ref="cdWrapper">
                 <div class="cd" :class="cdCls">
                   <img :src="currentSong.image" alt="" class="image">
                 </div>
               </div>
-              <!-- <div class="playing-lyric-wrapper">
-                <div class="player-lyric"></div>
-              </div> -->
+              <div class="playing-lyric-wrapper">
+                <div class="player-lyric">{{playLyric}}</div>
+              </div>
           </div>
           <scroll class="middle-r" ref="lyricList" :data="currentLyric&&currentLyric.lines">
             <div class="lyric-wrapper">
@@ -151,7 +151,8 @@
         currentTime: 0,
         currentLyric: null,
         currentLineNum: 0,
-        currentShow: 'cd'
+        currentShow: 'cd',
+        playLyric:''  //当前播放的歌词
       }
     },
     created(){
@@ -159,7 +160,6 @@
     },
     methods: {
       middleStart(e) {
-        console.log(e);
         this.touches.initial = true;
         let touches = e.touches[0];
         this.touches.startX = touches.pageX;
@@ -178,27 +178,38 @@
         let left = this.currentShow === 'cd'? 0 : -window.innerWidth;
         let offsetWidth = Math.min(0,Math.max(-window.innerWidth, left+daltaX));
         this.touches.percent = Math.abs(offsetWidth/window.innerWidth);
+        let opacity = 1 - this.touches.percent;
         this.$refs.lyricList.$el.style[transform] =  `translate3d(${offsetWidth}px,0,0)`;
+        this.$refs.lyricList.$el.style[transitionDuration] = 0;
+        this.$refs.middleL.style.opacity = opacity;
+        this.$refs.middleL.style[transitionDuration] = '300ms';
       },
       middleEnd() {
-        let offsetWidth;
+        let offsetWidth,opacity;
         if(this.currentShow === 'cd') {
           if(this.touches.percent > 0.1){
-            offsetWidth = - window.innerWidth;
+            offsetWidth = - window.innerWidth
+            opacity = 0
             this.currentShow = 'lyric'
           }else{
             offsetWidth = 0
+            opacity = 1
           }
         }else{
           if(this.touches.percent < 0.9){
-            offsetWidth = 0;
+            offsetWidth = 0
+            opacity = 1
             this.currentShow = 'cd'
           }else{
             offsetWidth = -window.innerWidth
+            opacity = 0
           }
         }
         this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px,0,0)`;
-        this.$refs.lyricList.$el.style[transitionDuration] = 300;
+        this.$refs.lyricList.$el.style[transitionDuration] = '300ms';
+
+         this.$refs.middleL.style.opacity = opacity;
+        this.$refs.middleL.style[transitionDuration] = 0;
       },
       // 获取歌词
       getLyric() {
@@ -211,6 +222,11 @@
           }
           // 获取的歌词
           // console.log(this.currentLyric)
+        }).catch(()=>{
+          console.log('nononnoononnonono')
+          this.currentLyric = null
+          this.playLyric = ''
+          this.currentLineNum = 0
         })
       },
       handleLyric({lineNum,txt}){
@@ -222,6 +238,7 @@
           this.$refs.lyricList.scrollToElement(0,1000)
         }
         this.currentLineNum = lineNum
+        this.playLyric = txt
       },
       // 选择模式
       selectMode() {
@@ -245,7 +262,12 @@
         return this.setCurrentIndex(index)
       },
       progressBarChange(val){
-        this.$refs.audio.currentTime = this.currentSong.duration * val
+        let currentTime = this.currentSong.duration *val;
+        this.$refs.audio.currentTime = currentTime
+        if(!this.playing){this.togglePlaying()}
+        if(this.currentLyric){
+          this.currentLyric.seek(currentTime*1000)
+        }
       },
       enter(el, done) {
         const {x,y,scale} = this._getPosAndScale()
@@ -293,32 +315,45 @@
       togglePlaying() {
         if(!this.songReady){ return}
         this.setPlayState(!this.playing)
+        if(this.currentLyric){
+          this.currentLyric.togglePlay();
+        }
       },
       next() {
         if(!this.songReady){ return}
-        let index = this.currentIndex + 1
-        if(index > this.playlist.length){
-          index = 0
+        if(this.playlist.length == 1){
+          this.loop()
+        }else{
+          let index = this.currentIndex + 1
+          console.log(index);
+          if(index >= this.playlist.length){
+            index = 0
+          }
+          this.setCurrentIndex(index)
+          if(!this.playing){
+            this.togglePlaying()
+          }
         }
-        this.setCurrentIndex(index)
-        if(!this.playing){
-          this.togglePlaying()
-        }
-        this.songReady = true
+        this.songReady = false
       },
       prev() {
         if(!this.songReady){ return}
-        let index = this.currentIndex - 1
-        if(index < 0){
-          index = this.playlist.length - 1
+        if(this.playlist.length == 1){
+          this.loop()
+        }else{
+          let index = this.currentIndex - 1
+          if(index < 0){
+            index = this.playlist.length - 1
+          }
+          this.setCurrentIndex(index)
+          if(!this.playing){
+            this.togglePlaying()
+          }
         }
-        this.setCurrentIndex(index)
-        if(!this.playing){
-          this.togglePlaying()
-        }
-        this.songReady = true
+        this.songReady = false
       },
       end(){
+        // 如果播放模式为loop则循环播放，否则顺序播放
         if(this.mode == playmode.loop){
           this.loop()
         }else{
@@ -328,6 +363,9 @@
       loop() {
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
+        if(this.currentLyric){
+          this.currentTime.seek(0);
+        }
       },
       ready() {
         this.songReady = true
@@ -387,14 +425,19 @@
     watch:{
       currentSong(newSong, oldSong){
         if(newSong.id == oldSong.id){return}
+        if(this.currentLyric){this.currentLyric.stop()}
         this._getSongUrl()
       },
       songUrl() {
-        this.$nextTick( () => {
+        // this.$nextTick( () => {
+        //   this.$refs.audio.play()
+        //   // this.currentSong.getLyric()
+        //   this.getLyric()
+        // })
+        setTimeout(()=>{
           this.$refs.audio.play()
-          // this.currentSong.getLyric()
           this.getLyric()
-        })
+        },1000)
       },
       playing(newPlaying) {
         const audio_el = this.$refs.audio
@@ -502,7 +545,7 @@
             margin: 30px auto 0 auto
             overflow: hidden
             text-align: center
-            .playing-lyric
+            .player-lyric
               height: 20px
               line-height: 20px
               font-size: $font-size-medium

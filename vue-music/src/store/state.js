@@ -13,7 +13,7 @@ const state = {
   sequenceList: [],
   mode: mode.sequence,
   currentIndex: -1,
-  currenSongUrl: ''
+  currentSongUrl: ''
 }
 
 export default state
