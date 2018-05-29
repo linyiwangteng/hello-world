@@ -15,8 +15,8 @@ Vue.use(VueLazyLoad, {
   loading: require('common/images/default.png')
 })
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
+  // console.log(to)
+  // console.log(from)
   next()
 })
 /* eslint-disable no-new */
