@@ -1,4 +1,5 @@
 import {mode} from 'common/js/config'
+import {localSearch} from 'common/js/cache'
 const state = {
   singer: {},
 
@@ -13,7 +14,12 @@ const state = {
   sequenceList: [],
   mode: mode.sequence,
   currentIndex: -1,
-  currentSongUrl: ''
+  currentSongUrl: '',
+
+  disc: {},
+  toplist: {},
+
+  searchHistory: localSearch()
 }
 
 export default state

@@ -34,3 +34,25 @@ export function getList(url) {
     return Promise.resolve(res.data)
   })
 }
+
+export function getDisc(url, disstid) {
+  // const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  const params = Object.assign({}, commonParams, {
+    type: 1,
+    json: 1,
+    utf8: 1,
+    onlysong: 0,
+    disstid,
+    // jsonpCallback: 'playlistinfoCallback',
+    loginUin: '853556568',
+    hostUin: 0,
+    format: 'json',
+    platform: 'yqq',
+    needNewCode: 0
+  })
+  return axios.get(url, {
+    params
+  }).then(res => {
+    return Promise.resolve(res.data)
+  })
+}

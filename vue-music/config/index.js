@@ -21,6 +21,16 @@ module.exports = {
           '^/recommend': ''
         }
       },
+      '/disc': {
+        target:'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',
+        changeOrigin: true,
+        headers: {
+          referer:'https://y.qq.com/portal/playlist.html'
+        },
+        pathRewrite: {
+          '^/disc': ''
+        }
+      },
       '/lyric': {
         target:'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
         changeOrigin:true,
@@ -42,7 +52,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '192.168.1.58', // can be overwritten by process.env.HOST
     port: 8090, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

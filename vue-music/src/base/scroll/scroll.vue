@@ -23,6 +23,18 @@
       data: {
         type: Array,
         default: null
+      },
+      pullUp: {
+        type: Boolean,
+        default: false
+      },
+      pullDown: {
+        type: Boolean,
+        default: false
+      },
+      beforeScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -45,6 +57,30 @@
               me.$emit('scroll', pos)
           })
         }
+        // 上拉加载
+        if(this.pullUp){
+          this.scroll.on('scrollEnd', ()=>{
+  
+            if(this.scroll.y<=(this.scroll.maxScrollY + 50)) {
+              this.$emit('scrollToEnd')
+            }
+          })
+        }
+        // 下拉刷新
+        if(this.pullDown){
+          this.scroll.on('scrollEnd', ()=>{
+               console.log(this.scroll.y)
+            if(this.scroll.y>=0){
+              this.$emit('scrollToTop')
+            }
+          })
+        }
+
+        if(this.beforeScroll) {
+          this.scroll.on('beforeScrollStart',()=>{
+            this.$emit('beforeScroll')
+          })
+        }
       },
       enable() {
         this.scroll && this.scroll.enable()
@@ -64,7 +100,7 @@
     },
 
     watch: {
-      data() {
+      data(i) {
         setTimeout( () => {
           this.refresh()
         }, 20)

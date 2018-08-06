@@ -24,6 +24,15 @@ const mutations = {
   },
   [types.SET_CURRENT_SONG_URL](state, url) {
     state.currentSongUrl = url
+  },
+  [types.SET_DISC](state, disc) {
+    state.disc = disc
+  },
+  [types.SET_TOP_LIST](state, toplist) {
+    state.toplist = toplist
+  },
+  [types.SET_SEARCH_HISTORY](state, history) {
+    state.searchHistory = history
   }
 }
 
